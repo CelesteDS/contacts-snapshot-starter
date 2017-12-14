@@ -36,6 +36,7 @@ describe('Load a Page', function () {
         .goto('http://localhost:3000')
         .click('[href="/contacts/new"]')
         .wait(3000)
+        .end()
         .url()
         .then((result) => {
           expect(result).to.equal('http://localhost:3000/contacts/new')
@@ -44,20 +45,21 @@ describe('Load a Page', function () {
         .catch(done)
     })
   })
-  //
-  // describe('search', () => {
-  //   it('should redirect to contacts search route', (done) => {
-  //     nightmare
-  //       .goto('http://localhost:3000')
-  //       .type('form', 'Godot\u000d')
-  //       .wait(5000)
-  //       .url()
-  //       .end()
-  //       .then((result) => {
-  //         expect(result).to.equal('http://localhost:3000/contacts/search?q=Godot')
-  //       })
-  //       .then(() => done())
-  //       .catch(done)
-  //   })
-  // })
+
+  describe('search', () => {
+    it('should redirect to contacts search route', (done) => {
+      nightmare
+        .goto('http://localhost:3000')
+        .type('body', 'Godot')
+        .screenshot('./thisisweird.png')
+        .type('body', '\u000D')
+        .end()
+        .url()
+        .then((result) => {
+          expect(result).to.equal('http://localhost:3000/contacts/search?q=Godot')
+        })
+        .then(() => done())
+        .catch(done)
+    })
+  })
 })
