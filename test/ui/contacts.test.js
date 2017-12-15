@@ -1,9 +1,9 @@
 const Nightmare = require('nightmare')
 const { expect } = require('chai')
 
-describe('Load a Page', function () {
+describe('Headless Browser Testing w Nightmare', function () {
   // Recommended: 5s locally, 10s to remote server, 30s from airplane ¯\_(ツ)_/¯
-  this.timeout('15s')
+  this.timeout('7s')
 
   let nightmare = null
   beforeEach(() => {
@@ -47,19 +47,16 @@ describe('Load a Page', function () {
   })
 
   describe('search', () => {
-    it('should redirect to contacts search route', (done) => {
-      nightmare
+    it('should redirect to contacts search page', () => {
+      return nightmare
         .goto('http://localhost:3000')
-        .type('body', 'Godot')
-        .screenshot('./thisisweird.png')
-        .type('body', '\u000D')
-        .end()
+        .type('[name=q]', 'Godot')
+        .click('[type=submit]')
         .url()
-        .then((result) => {
-          expect(result).to.equal('http://localhost:3000/contacts/search?q=Godot')
+        .end()
+        .then(result => {
+          return expect(result).to.eql('http://localhost:3000/contacts/search?q=Godot')
         })
-        .then(() => done())
-        .catch(done)
     })
   })
 })
